@@ -23,7 +23,10 @@ app.use(function(req, res, next){
     res.send("Hello World");
 });
 
-app.listen(PORT);
+app.listen(PORT, function(){
+    console.log("Server listening on port %s", PORT);
+    pubsub.subscribe(topic, hub);
+});
 
 pubsub.on("denied", function(data){
     console.log("Denied");
@@ -54,9 +57,4 @@ pubsub.on("feed", function(data){
     console.log(data.feed.toString());
 
     pubsub.unsubscribe(topic, hub);
-});
-
-pubsub.on("listen", function(){
-    console.log("Server listening on port %s", pubsub.port);
-    pubsub.subscribe(topic, hub);
 });
