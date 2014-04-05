@@ -4,26 +4,26 @@ var express = require("express"),
     pubSubHubbub = require("../index"),
     crypto = require("crypto"),
     
-    port = 1337,
-    host = "kreata.ee",
-    path = "/pubSubHubbub",
+    PORT = 1337,
+    HOST = "kreata.ee",
+    PATH = "/pubSubHubbub",
 
     pubsub = pubSubHubbub.createServer({
-        callbackUrl: "http://" + host + (port && port != 80 ? ":" + port : "") + path,
+        callbackUrl: "http://" + HOST + (PORT && PORT != 80 ? ":" + PORT : "") + PATH,
         secret: "MyTopSecret"
     }),
     
     topic = "http://testetstetss.blogspot.com/feeds/posts/default",
     hub = "http://pubsubhubbub.appspot.com/";
 
-app.use("/pubsubhubbub", pubsub.listener());
+app.use(PATH, pubsub.listener());
 
-// respond
+// default response
 app.use(function(req, res, next){
     res.send("Hello World");
 });
 
-app.listen(3000);
+app.listen(PORT);
 
 pubsub.on("denied", function(data){
     console.log("Denied");
