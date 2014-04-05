@@ -1,5 +1,6 @@
+"use strict";
+
 var pubSubHubbub = require("../index"),
-    crypto = require("crypto"),
     
     pubsub = pubSubHubbub.createServer({
         callbackUrl: "http://kreata.ee:1337",
@@ -36,7 +37,7 @@ pubsub.on("error", function(error){
 });
 
 pubsub.on("feed", function(data){
-    console.log(data)
+    console.log(data);
     console.log(data.feed.toString());
 
     pubsub.unsubscribe(topic, hub);

@@ -1,8 +1,9 @@
+"use strict";
+
 var express = require("express"),
     app = express(),
 
     pubSubHubbub = require("../index"),
-    crypto = require("crypto"),
     
     PORT = 1337,
     HOST = "kreata.ee",
@@ -19,7 +20,7 @@ var express = require("express"),
 app.use(PATH, pubsub.listener());
 
 // default response
-app.use(function(req, res, next){
+app.use(function(req, res){
     res.send("Hello World");
 });
 
@@ -53,7 +54,7 @@ pubsub.on("error", function(error){
 });
 
 pubsub.on("feed", function(data){
-    console.log(data)
+    console.log(data);
     console.log(data.feed.toString());
 
     pubsub.unsubscribe(topic, hub);
