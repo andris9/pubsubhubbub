@@ -4,8 +4,12 @@ var express = require("express"),
     pubSubHubbub = require("../index"),
     crypto = require("crypto"),
     
+    port = 1337,
+    host = "kreata.ee",
+    path = "/pubSubHubbub",
+
     pubsub = pubSubHubbub.createServer({
-        callbackUrl: "http://kreata.ee:1337/pubsubhubbub",
+        callbackUrl: "http://" + host + (port && port != 80 ? ":" + port : "") + path,
         secret: "MyTopSecret"
     }),
     
