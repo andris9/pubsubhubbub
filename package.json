@@ -14,10 +14,11 @@
   "author": "Andris Reinman",
   "license": "MIT",
   "dependencies": {
-    "request": "*"
+    "request": "^2.34.0"
   },
   "devDependencies": {
     "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "express": "*"
   }
 }

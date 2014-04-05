@@ -12,13 +12,12 @@ Install with npm
 
 ## Usage
 
-**pubsubhubbub** starts a HTTP server on selected port. 
+Create a **pubsubhubbub** server object
 
-    var pubSubHubbub = require("pubsubhubbub");
-
-    var pubSubSubscriber = pubSubHubbub.createServer(options);
-
-    pubSubSubscriber.listen(1337);
+```javascript
+var pubSubHubbub = require("pubsubhubbub"),
+    pubSubSubscriber = pubSubHubbub.createServer(options);
+```
 
 Where options includes the following properties
 
@@ -28,6 +27,27 @@ Where options includes the following properties
   * **maxContentSize** (optional) Maximum allowed size of the POST messages
   * **username** (optional) Username for HTTP Authentication
   * **password** (optional) Password for HTTP Authentication
+
+### HTTP server mode
+
+Start a HTTP server to listen incoming PubSubHubbub requests
+
+```javascript
+// listen on port 1337
+pubSubSubscriber.listen(1337);
+```
+
+### Express middleware mode
+
+If you dot want to spin up a dedicated HTTP server, you can use the PubSubHubbub
+subscriber as an Express middleware.
+
+Attach PubSubHubbub object to an Express server using `listener` method.
+
+```
+// use the same path as defined in callbackUrl
+app.use("/pubsubhubbub", pubSubSubscriber.listener());
+```
 
 ## Events
 
