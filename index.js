@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
-var request = require("request"),
-    http = require("http"),
-    urllib = require("url"),
-    Stream = require("stream").Stream,
-    utillib = require("util"),
-    crypto = require("crypto");
+var request = require('request'),
+    http = require('http'),
+    urllib = require('url'),
+    Stream = require('stream').Stream,
+    utillib = require('util'),
+    crypto = require('crypto');
 
 // Expose to the world
 /**
@@ -44,14 +44,14 @@ function PubSubHubbub(options) {
     options = options || {};
 
     this.secret = options.secret || false;
-    this.callbackUrl = options.callbackUrl || "";
+    this.callbackUrl = options.callbackUrl || '';
     this.maxContentSize = options.maxContentSize || 3 * 1024 * 1024;
 
     if (options.username) {
         this.auth = {
-            "user": options.username,
-            "pass": options.password,
-            "sendImmediately": false
+            'user': options.username,
+            'pass': options.password,
+            'sendImmediately': false
         };
     }
 }
@@ -64,12 +64,12 @@ utillib.inherits(PubSubHubbub, Stream);
  *
  * @param  {Object}   req HTTP request object
  * @param  {Object}   res HTTP response object
- * @param  {Function} next
+ * @param  {Function} next Optional connect middleware next()
  * @return {Function} Middleware handler
  */
 PubSubHubbub.prototype.listener = function() {
-    return function(req, res) {
-        this._onRequest(req, res);
+    return function(req, res, next) {
+        this._onRequest(req, res, next);
     }.bind(this);
 };
 
@@ -83,8 +83,8 @@ PubSubHubbub.prototype.listen = function() {
     this.port = args[0];
 
     this.server = http.createServer(this._onRequest.bind(this));
-    this.server.on("error", this._onError.bind(this));
-    this.server.on("listening", this._onListening.bind(this));
+    this.server.on('error', this._onError.bind(this));
+    this.server.on('listening', this._onListening.bind(this));
 
     this.server.listen.apply(this.server, args);
 };
@@ -98,7 +98,7 @@ PubSubHubbub.prototype.listen = function() {
  * @param {Function} [callback] Callback function, might not be very useful
  */
 PubSubHubbub.prototype.subscribe = function(topic, hub, callbackUrl, callback) {
-    this.setSubscription("subscribe", topic, hub, callbackUrl, callback);
+    this.setSubscription('subscribe', topic, hub, callbackUrl, callback);
 };
 
 /**
@@ -110,13 +110,13 @@ PubSubHubbub.prototype.subscribe = function(topic, hub, callbackUrl, callback) {
  * @param {Function} [callback] Callback function, might not be very useful
  */
 PubSubHubbub.prototype.unsubscribe = function(topic, hub, callbackUrl, callback) {
-    this.setSubscription("unsubscribe", topic, hub, callbackUrl, callback);
+    this.setSubscription('unsubscribe', topic, hub, callbackUrl, callback);
 };
 
 /**
  * Subsribe or unsubscribe a topic at selected hub
  *
- * @param {String} mode Either "subscribe" or "unsubscribe"
+ * @param {String} mode Either 'subscribe' or 'unsubscribe'
  * @param {String} topic Atom or RSS feed URL
  * @param {String} hub Hub URL
  * @param {String} [callbackUrl] Define callback url for the hub, do not use the default
@@ -124,29 +124,29 @@ PubSubHubbub.prototype.unsubscribe = function(topic, hub, callbackUrl, callback)
  */
 PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl, callback) {
 
-    if (!callback && typeof callbackUrl == "function") {
+    if (!callback && typeof callbackUrl == 'function') {
         callback = callbackUrl;
         callbackUrl = undefined;
     }
 
     // by default the topic url is added as a GET parameter to the callback url
     callbackUrl = callbackUrl || this.callbackUrl +
-        (this.callbackUrl.replace(/^https?:\/\//i, "").match(/\//) ? "" : "/") +
-        (this.callbackUrl.match(/\?/) ? "&" : "?") +
-        "topic=" + encodeURIComponent(topic) +
-        "&hub=" + encodeURIComponent(hub);
+        (this.callbackUrl.replace(/^https?:\/\//i, '').match(/\//) ? '' : '/') +
+        (this.callbackUrl.match(/\?/) ? '&' : '?') +
+        'topic=' + encodeURIComponent(topic) +
+        '&hub=' + encodeURIComponent(hub);
 
     var form = {
-        "hub.callback": callbackUrl,
-        "hub.mode": mode,
-        "hub.topic": topic,
-        "hub.verify": "async"
+        'hub.callback': callbackUrl,
+        'hub.mode': mode,
+        'hub.topic': topic,
+        'hub.verify': 'async'
     },
 
         postParams = {
             url: hub,
             form: form,
-            encoding: "utf-8"
+            encoding: 'utf-8'
         };
 
     if (this.auth) {
@@ -155,7 +155,7 @@ PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl,
 
     if (this.secret) {
         // do not use the original secret but a generated one
-        form["hub.secret"] = crypto.createHmac("sha1", this.secret).update(topic).digest("hex");
+        form['hub.secret'] = crypto.createHmac('sha1', this.secret).update(topic).digest('hex');
     }
 
     request.post(postParams, function(error, response, responseBody) {
@@ -164,7 +164,7 @@ PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl,
             if (callback) {
                 return callback(error);
             } else {
-                return this.emit("denied", {
+                return this.emit('denied', {
                     topic: topic,
                     error: error
                 });
@@ -172,12 +172,12 @@ PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl,
         }
 
         if (response.statusCode != 202 && response.statusCode != 204) {
-            var err = new Error("Invalid response status " + response.statusCode);
-            err.responseBody = (responseBody || "").toString();
+            var err = new Error('Invalid response status ' + response.statusCode);
+            err.responseBody = (responseBody || '').toString();
             if (callback) {
                 return callback(err);
             } else {
-                return this.emit("denied", {
+                return this.emit('denied', {
                     topic: topic,
                     error: err
                 });
@@ -196,15 +196,16 @@ PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl,
  * @event
  * @param {Object} req HTTP Request object
  * @param {Object} res HTTP Response object
+ * @param {Function} next Optional connect middleware next()
  */
-PubSubHubbub.prototype._onRequest = function(req, res) {
+PubSubHubbub.prototype._onRequest = function(req, res, next) {
     switch (req.method) {
-        case "GET":
-            return this._onGetRequest(req, res);
-        case "POST":
-            return this._onPostRequest(req, res);
+        case 'GET':
+            return this._onGetRequest(req, res, next);
+        case 'POST':
+            return this._onPostRequest(req, res, next);
         default:
-            return this._sendError(req, res, 405, "Method Not Allowed");
+            return this._sendError(req, res, next, 405, 'Method Not Allowed');
     }
 };
 
@@ -215,11 +216,11 @@ PubSubHubbub.prototype._onRequest = function(req, res) {
  * @param {Error} error Error object
  */
 PubSubHubbub.prototype._onError = function(error) {
-    if (error.syscall == "listen") {
-        error.message = "Failed to start listening on port " + this.port + " (" + error.code + ")";
-        this.emit("error", error);
+    if (error.syscall == 'listen') {
+        error.message = 'Failed to start listening on port ' + this.port + ' (' + error.code + ')';
+        this.emit('error', error);
     } else {
-        this.emit("error", error);
+        this.emit('error', error);
     }
 };
 
@@ -229,7 +230,7 @@ PubSubHubbub.prototype._onError = function(error) {
  * @event
  */
 PubSubHubbub.prototype._onListening = function() {
-    this.emit("listen");
+    this.emit('listen');
 };
 
 /**
@@ -238,46 +239,47 @@ PubSubHubbub.prototype._onListening = function() {
  *
  * @param {Object} req HTTP Request object
  * @param {Object} res HTTP Response object
+ * @param {Function} next Optional connect middleware next()
  */
-PubSubHubbub.prototype._onGetRequest = function(req, res) {
+PubSubHubbub.prototype._onGetRequest = function(req, res, next) {
     var params = urllib.parse(req.url, true, true),
         data;
 
     // Does not seem to be a valid PubSubHubbub request
-    if (!params.query["hub.topic"] ||  !params.query["hub.mode"]) {
-        return this._sendError(req, res, 400, "Bad Request");
+    if (!params.query['hub.topic'] || !params.query['hub.mode']) {
+        return this._sendError(req, res, next, 400, 'Bad Request');
     }
 
-    switch (params.query["hub.mode"]) {
-        case "denied":
+    switch (params.query['hub.mode']) {
+        case 'denied':
             res.writeHead(200, {
-                "Content-Type": "text/plain"
+                'Content-Type': 'text/plain'
             });
             data = {
-                topic: params.query["hub.topic"],
+                topic: params.query['hub.topic'],
                 hub: params.query.hub
             };
-            res.end(params.query["hub.challenge"] || "ok");
+            res.end(params.query['hub.challenge'] || 'ok');
             break;
-        case "subscribe":
-        case "unsubscribe":
+        case 'subscribe':
+        case 'unsubscribe':
             res.writeHead(200, {
-                "Content-Type": "text/plain"
+                'Content-Type': 'text/plain'
             });
-            res.end(params.query["hub.challenge"]);
+            res.end(params.query['hub.challenge']);
             data = {
-                lease: Number(params.query["hub.lease_seconds"] || 0) + Math.round(Date.now() / 1000),
-                topic: params.query["hub.topic"],
+                lease: Number(params.query['hub.lease_seconds'] || 0) + Math.round(Date.now() / 1000),
+                topic: params.query['hub.topic'],
                 hub: params.query.hub
             };
             break;
         default:
             // Not a valid mode
-            return this._sendError(req, res, 403, "Forbidden");
+            return this._sendError(req, res, next, 403, 'Forbidden');
     }
 
     // Emit subscription information
-    this.emit(params.query["hub.mode"], data);
+    this.emit(params.query['hub.mode'], data);
 };
 
 /**
@@ -286,8 +288,9 @@ PubSubHubbub.prototype._onGetRequest = function(req, res) {
  *
  * @param {Object} req HTTP Request object
  * @param {Object} res HTTP Response object
+ * @param {Function} next Optional connect middleware next()
  */
-PubSubHubbub.prototype._onPostRequest = function(req, res) {
+PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
     var bodyChunks = [],
         params = urllib.parse(req.url, true, true),
         topic = params && params.query && params.query.topic,
@@ -297,41 +300,41 @@ PubSubHubbub.prototype._onPostRequest = function(req, res) {
         signatureParts, algo, signature, hmac;
 
     // v0.4 hubs have a link header that includes both the topic url and hub url
-    (req.headers && req.headers.link || "").
-    replace(/<([^>]+)>\s*(?:;\s*rel=[""]([^""]+)[""])?/gi, function(o, url, rel) {
-        switch ((rel ||  "").toLowerCase()) {
-            case "self":
+    (req.headers && req.headers.link || '').
+    replace(/<([^>]+)>\s*(?:;\s*rel=['']([^'']+)[''])?/gi, function(o, url, rel) {
+        switch ((rel || '').toLowerCase()) {
+            case 'self':
                 topic = url;
                 break;
-            case "hub":
+            case 'hub':
                 hub = url;
                 break;
         }
     });
 
     if (!topic) {
-        return this._sendError(req, res, 400, "Bad Request");
+        return this._sendError(req, res, next, 400, 'Bad Request');
     }
 
     // Hub must notify with signature header if secret specified.
-    if (this.secret && !req.headers["x-hub-signature"]) {
-        return this._sendError(req, res, 403, "Forbidden");
+    if (this.secret && !req.headers['x-hub-signature']) {
+        return this._sendError(req, res, next, 403, 'Forbidden');
     }
 
     if (this.secret) {
-        signatureParts = req.headers["x-hub-signature"].split("=");
-        algo = (signatureParts.shift() || "").toLowerCase();
-        signature = (signatureParts.pop() || "").toLowerCase();
+        signatureParts = req.headers['x-hub-signature'].split('=');
+        algo = (signatureParts.shift() || '').toLowerCase();
+        signature = (signatureParts.pop() || '').toLowerCase();
 
         try {
-            hmac = crypto.createHmac(algo, crypto.createHmac("sha1", this.secret).update(topic).digest("hex"));
+            hmac = crypto.createHmac(algo, crypto.createHmac('sha1', this.secret).update(topic).digest('hex'));
         } catch (E) {
-            return this._sendError(req, res, 403, "Forbidden");
+            return this._sendError(req, res, next, 403, 'Forbidden');
         }
     }
 
-    req.on("data", (function(chunk) {
-        if (!chunk ||  !chunk.length || tooLarge) {
+    req.on('data', (function(chunk) {
+        if (!chunk || !chunk.length || tooLarge) {
             return;
         }
 
@@ -348,28 +351,28 @@ PubSubHubbub.prototype._onPostRequest = function(req, res) {
         chunk = null;
     }).bind(this));
 
-    req.on("end", (function() {
+    req.on('end', (function() {
         if (tooLarge) {
-            return this._sendError(req, res, 413, "Request Entity Too Large");
+            return this._sendError(req, res, next, 413, 'Request Entity Too Large');
         }
 
-        // Must return 2xx code even if signature doesn"t match.
-        if (this.secret && hmac.digest("hex").toLowerCase() != signature) {
+        // Must return 2xx code even if signature doesn't match.
+        if (this.secret && hmac.digest('hex').toLowerCase() != signature) {
             res.writeHead(202, {
-                "Content-Type": "text/plain; charset=utf-8"
+                'Content-Type': 'text/plain; charset=utf-8'
             });
             return res.end();
         }
 
         res.writeHead(204, {
-            "Content-Type": "text/plain; charset=utf-8"
+            'Content-Type': 'text/plain; charset=utf-8'
         });
         res.end();
 
-        this.emit("feed", {
+        this.emit('feed', {
             topic: topic,
             hub: hub,
-            callback: "http://" + req.headers.host + req.url,
+            callback: 'http://' + req.headers.host + req.url,
             feed: Buffer.concat(bodyChunks, bodyLen),
             headers: req.headers
         });
@@ -382,21 +385,28 @@ PubSubHubbub.prototype._onPostRequest = function(req, res) {
  *
  * @param {Object} req HTTP Request object
  * @param {Object} res HTTP Response object
+ * @param {Function} next Optional connect middleware next()
  * @param {Number} code HTTP response status
  * @param {String} message Error message to display
  */
-PubSubHubbub.prototype._sendError = function(req, res, code, message) {
+PubSubHubbub.prototype._sendError = function(req, res, next, code, message) {
+    if (next) {
+        return next({
+            status: code,
+            message: message
+        });
+    }
     res.writeHead(code, {
-        "Content-Type": "text/html"
+        'Content-Type': 'text/html'
     });
-    res.end("<!DOCTYPE html>\n" +
-        "<html>\n" +
-        "    <head>\n" +
-        "        <meta charset=\"utf-8\"/>\n" +
-        "        <title>" + code + " " + message + "</title>\n" +
-        "    </head>\n" +
-        "    <body>\n" +
-        "        <h1>" + code + " " + message + "</h1>\n" +
-        "    </body>\n" +
-        "</html>");
+    res.end('<!DOCTYPE html>\n' +
+        '<html>\n' +
+        '    <head>\n' +
+        '        <meta charset="utf-8"/>\n' +
+        '        <title>' + code + ' ' + message + '</title>\n' +
+        '    </head>\n' +
+        '    <body>\n' +
+        '        <h1>' + code + ' ' + message + '</h1>\n' +
+        '    </body>\n' +
+        '</html>');
 };
