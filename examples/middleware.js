@@ -21,8 +21,8 @@ var express = require("express"),
 app.use(PATH, pubsub.listener());
 
 // default response
-app.use(function(req, res){
-    res.send("Hello World");
+app.get('/', function(req, res, next) {
+    res.send('hello world');
 });
 
 errorHandler.title = "PubSubHubbub test";
