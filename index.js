@@ -390,11 +390,12 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
  * @param {String} message Error message to display
  */
 PubSubHubbub.prototype._sendError = function(req, res, next, code, message) {
+    var err;
     if (next) {
-        return next({
-            status: code,
-            message: message
-        });
+        err = new Error(message);
+        err.status = code;
+        err.stack = ''; // hide stack
+        return next(err);
     }
     res.writeHead(code, {
         'Content-Type': 'text/html'
