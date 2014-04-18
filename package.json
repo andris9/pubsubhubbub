@@ -19,6 +19,7 @@
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
-    "express": "*"
+    "express": "*",
+    "errorhandler": "^1.0.0"
   }
 }

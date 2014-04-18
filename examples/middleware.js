@@ -2,9 +2,10 @@
 
 var express = require("express"),
     app = express(),
+    errorHandler = require('errorhandler'),
 
     pubSubHubbub = require("../index"),
-    
+
     PORT = 1337,
     HOST = "kreata.ee",
     PATH = "/pubSubHubbub",
@@ -13,7 +14,7 @@ var express = require("express"),
         callbackUrl: "http://" + HOST + (PORT && PORT != 80 ? ":" + PORT : "") + PATH,
         secret: "MyTopSecret"
     }),
-    
+
     topic = "http://testetstetss.blogspot.com/feeds/posts/default",
     hub = "http://pubsubhubbub.appspot.com/";
 
@@ -23,6 +24,9 @@ app.use(PATH, pubsub.listener());
 app.use(function(req, res){
     res.send("Hello World");
 });
+
+errorHandler.title = "PubSubHubbub test";
+app.use(errorHandler());
 
 app.listen(PORT, function(){
     console.log("Server listening on port %s", PORT);
