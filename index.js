@@ -252,32 +252,36 @@ PubSubHubbub.prototype._onGetRequest = function(req, res, next) {
 
     switch (params.query['hub.mode']) {
         case 'denied':
-            res.writeHead(200, {
-                'Content-Type': 'text/plain'
-            });
             data = {
                 topic: params.query['hub.topic'],
                 hub: params.query.hub
             };
             if (next) {
+                res.statusCode = 200;
+                res.set('Content-Type', 'text/plain');
                 res.send(params.query['hub.challenge'] || 'ok');
             } else {
+                res.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                });
                 res.end(params.query['hub.challenge'] || 'ok');
             }
             break;
         case 'subscribe':
         case 'unsubscribe':
-            res.writeHead(200, {
-                'Content-Type': 'text/plain'
-            });
             data = {
                 lease: Number(params.query['hub.lease_seconds'] || 0) + Math.round(Date.now() / 1000),
                 topic: params.query['hub.topic'],
                 hub: params.query.hub
             };
             if (next) {
+                res.statusCode = 200;
+                res.set('Content-Type', 'text/plain');
                 res.send(params.query['hub.challenge']);
             } else {
+                res.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                });
                 res.end(params.query['hub.challenge']);
             }
             break;
@@ -366,23 +370,27 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
 
         // Must return 2xx code even if signature doesn't match.
         if (this.secret && hmac.digest('hex').toLowerCase() != signature) {
-            res.writeHead(202, {
-                'Content-Type': 'text/plain; charset=utf-8'
-            });
             if (next) {
+                res.statusCode = 202;
+                res.set('Content-Type', 'text/plain; charset=utf-8');
                 return res.send('');
             } else {
+                res.writeHead(202, {
+                    'Content-Type': 'text/plain; charset=utf-8'
+                });
                 return res.end();
             }
         }
 
-        res.writeHead(204, {
-            'Content-Type': 'text/plain; charset=utf-8'
-        });
 
         if (next) {
+            res.statusCode = 204;
+            res.set('Content-Type', 'text/plain; charset=utf-8');
             return res.send('');
         } else {
+            res.writeHead(204, {
+                'Content-Type': 'text/plain; charset=utf-8'
+            });
             return res.end();
         }
 
