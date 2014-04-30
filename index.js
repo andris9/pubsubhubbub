@@ -259,19 +259,27 @@ PubSubHubbub.prototype._onGetRequest = function(req, res, next) {
                 topic: params.query['hub.topic'],
                 hub: params.query.hub
             };
-            res.end(params.query['hub.challenge'] || 'ok');
+            if (next) {
+                res.send(params.query['hub.challenge'] || 'ok');
+            } else {
+                res.end(params.query['hub.challenge'] || 'ok');
+            }
             break;
         case 'subscribe':
         case 'unsubscribe':
             res.writeHead(200, {
                 'Content-Type': 'text/plain'
             });
-            res.end(params.query['hub.challenge']);
             data = {
                 lease: Number(params.query['hub.lease_seconds'] || 0) + Math.round(Date.now() / 1000),
                 topic: params.query['hub.topic'],
                 hub: params.query.hub
             };
+            if (next) {
+                res.send(params.query['hub.challenge']);
+            } else {
+                res.end(params.query['hub.challenge']);
+            }
             break;
         default:
             // Not a valid mode
@@ -361,13 +369,22 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
             res.writeHead(202, {
                 'Content-Type': 'text/plain; charset=utf-8'
             });
-            return res.end();
+            if (next) {
+                return res.send('');
+            } else {
+                return res.end();
+            }
         }
 
         res.writeHead(204, {
             'Content-Type': 'text/plain; charset=utf-8'
         });
-        res.end();
+
+        if (next) {
+            return res.send('');
+        } else {
+            return res.end();
+        }
 
         this.emit('feed', {
             topic: topic,
