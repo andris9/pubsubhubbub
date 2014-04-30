@@ -382,16 +382,15 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
             }
         }
 
-
         if (next) {
             res.statusCode = 204;
             res.set('Content-Type', 'text/plain; charset=utf-8');
-            return res.send('');
+            res.send('');
         } else {
             res.writeHead(204, {
                 'Content-Type': 'text/plain; charset=utf-8'
             });
-            return res.end();
+            res.end();
         }
 
         this.emit('feed', {
