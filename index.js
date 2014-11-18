@@ -51,7 +51,7 @@ function PubSubHubbub(options) {
         this.auth = {
             'user': options.username,
             'pass': options.password,
-            'sendImmediately': false
+            'sendImmediately': options.sendImmediately || false
         };
     }
 }
