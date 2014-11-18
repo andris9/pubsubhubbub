@@ -9,7 +9,7 @@ var pubsub = pubSubHubbub.createServer({
         secret: "MyTopSecret",
         username: "Test",
         password: "P@ssw0rd",
-				sendImmediately: false
+				sendImmediately: true
 	});
 
 var topic = 'http://test.com',
@@ -158,7 +158,7 @@ suite("pubsubhubbub creation", function () {
 		expect(pubsub.auth).to.eql({
 			'user': 'Test',
 			'pass': 'P@ssw0rd',
-			'sendImmediately': false
+			'sendImmediately': false || true
 		});
 	});
 
