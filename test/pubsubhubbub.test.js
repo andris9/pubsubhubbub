@@ -8,7 +8,8 @@ var pubsub = pubSubHubbub.createServer({
 		callbackUrl: "http://localhost:8000/callback",
         secret: "MyTopSecret",
         username: "Test",
-        password: "P@ssw0rd"
+        password: "P@ssw0rd",
+				sendImmediately: false
 	});
 
 var topic = 'http://test.com',
@@ -56,7 +57,7 @@ describe('pubsubhubbub notification', function () {
 		}
 		request.post(options, function (err, res, body) {
 			expect(res.statusCode).to.equal(403);
-			done();		
+			done();
 		});
 	});
 
@@ -155,11 +156,10 @@ suite("pubsubhubbub creation", function () {
 		expect(pubsub.auth.pass).to.equal("P@ssw0rd");
 
 		expect(pubsub.auth).to.eql({
-			'user': 'Test', 
+			'user': 'Test',
 			'pass': 'P@ssw0rd',
 			'sendImmediately': false
 		});
 	});
 
 });
-
