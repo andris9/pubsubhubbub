@@ -1,6 +1,6 @@
 {
   "name": "pubsubhubbub",
-  "version": "0.3.5",
+  "version": "0.4.0",
   "description": "PubSubHubbub subscriber",
   "main": "src/pubsubhubbub.js",
   "scripts": {
@@ -14,14 +14,14 @@
   "author": "Andris Reinman",
   "license": "MIT",
   "dependencies": {
-    "request": "~2.48.0"
+    "request": "^2.48.0"
   },
   "devDependencies": {
-    "chai": "~1.10.0",
-    "express": "~4.10.2",
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-mocha-test": "~0.12.3",
-    "mocha": "~2.0.1"
+    "chai": "^1.10.0",
+    "express": "^4.10.2",
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-mocha-test": "^0.12.3",
+    "mocha": "^2.0.1"
   }
 }
