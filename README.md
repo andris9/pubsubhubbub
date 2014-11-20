@@ -27,6 +27,7 @@ Where options includes the following properties
   * **maxContentSize** (optional) Maximum allowed size of the POST messages
   * **username** (optional) Username for HTTP Authentication
   * **password** (optional) Password for HTTP Authentication
+  * **sendImmediately** (optional) Send Username & Password Immediately. Defaults to false.
 
 ### HTTP server mode
 
@@ -72,7 +73,7 @@ Where
 
 ### Subscribe
 
-Subscribe to a feed with 
+Subscribe to a feed with
 
     pubSubSubscriber.subscribe(topic, hub, callback)
 
@@ -104,7 +105,7 @@ Example:
 
 ### Unsubscribe
 
-Unsubscribe from a feed with 
+Unsubscribe from a feed with
 
     pubSubSubscriber.unsubscribe(topic, hub, callback)
 

@@ -51,7 +51,7 @@ function PubSubHubbub(options) {
         this.auth = {
             'user': options.username,
             'pass': options.password,
-            'sendImmediately': false
+            'sendImmediately': options.sendImmediately || false
         };
     }
 }
@@ -313,7 +313,7 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
 
     // v0.4 hubs have a link header that includes both the topic url and hub url
     (req.headers && req.headers.link || '').
-    replace(/<([^>]+)>\s*(?:;\s*rel=['']([^'']+)[''])?/gi, function(o, url, rel) {
+    replace(/<([^>]+)>\s*(?:;\s*rel=["']([^'']+)['"])?/gi, function(o, url, rel) {
         switch ((rel || '').toLowerCase()) {
             case 'self':
                 topic = url;
