@@ -124,7 +124,7 @@ PubSubHubbub.prototype.unsubscribe = function(topic, hub, callbackUrl, callback)
  */
 PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl, callback) {
 
-    if (!callback && typeof callbackUrl == 'function') {
+    if (!callback && typeof callbackUrl === 'function') {
         callback = callbackUrl;
         callbackUrl = undefined;
     }
@@ -137,11 +137,11 @@ PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl,
         '&hub=' + encodeURIComponent(hub);
 
     var form = {
-        'hub.callback': callbackUrl,
-        'hub.mode': mode,
-        'hub.topic': topic,
-        'hub.verify': 'async'
-    },
+            'hub.callback': callbackUrl,
+            'hub.mode': mode,
+            'hub.topic': topic,
+            'hub.verify': 'async'
+        },
 
         postParams = {
             url: hub,
@@ -171,7 +171,7 @@ PubSubHubbub.prototype.setSubscription = function(mode, topic, hub, callbackUrl,
             }
         }
 
-        if (response.statusCode != 202 && response.statusCode != 204) {
+        if (response.statusCode !== 202 && response.statusCode !== 204) {
             var err = new Error('Invalid response status ' + response.statusCode);
             err.responseBody = (responseBody || '').toString();
             if (callback) {
@@ -216,7 +216,7 @@ PubSubHubbub.prototype._onRequest = function(req, res, next) {
  * @param {Error} error Error object
  */
 PubSubHubbub.prototype._onError = function(error) {
-    if (error.syscall == 'listen') {
+    if (error.syscall === 'listen') {
         error.message = 'Failed to start listening on port ' + this.port + ' (' + error.code + ')';
         this.emit('error', error);
     } else {
@@ -313,7 +313,7 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
 
     // v0.4 hubs have a link header that includes both the topic url and hub url
     (req.headers && req.headers.link || '').
-    replace(/<([^>]+)>\s*(?:;\s*rel=["']([^'']+)['"])?/gi, function(o, url, rel) {
+    replace(/<([^>]+)>\s*(?:;\s*rel=["']([^"']+)["'])?/gi, function(o, url, rel) {
         switch ((rel || '').toLowerCase()) {
             case 'self':
                 topic = url;
@@ -369,7 +369,7 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
         }
 
         // Must return 2xx code even if signature doesn't match.
-        if (this.secret && hmac.digest('hex').toLowerCase() != signature) {
+        if (this.secret && hmac.digest('hex').toLowerCase() !== signature) {
             if (next) {
                 res.statusCode = 202;
                 res.set('Content-Type', 'text/plain; charset=utf-8');

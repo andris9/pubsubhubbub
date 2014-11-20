@@ -1,10 +1,10 @@
 {
   "name": "pubsubhubbub",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "PubSubHubbub subscriber",
-  "main": "index.js",
+  "main": "src/pubsubhubbub.js",
   "scripts": {
-    "test": "make test"
+    "test": "grunt"
   },
   "homepage": "http://github.com/andris9/pubsubhubbub",
   "repository": {
@@ -14,12 +14,14 @@
   "author": "Andris Reinman",
   "license": "MIT",
   "dependencies": {
-    "request": "^2.34.0"
+    "request": "~2.48.0"
   },
   "devDependencies": {
-    "mocha": "*",
-    "chai": "*",
-    "express": "*",
-    "errorhandler": "^1.0.0"
+    "chai": "~1.10.0",
+    "express": "~4.10.2",
+    "grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+    "grunt-mocha-test": "~0.12.3",
+    "mocha": "~2.0.1"
   }
 }
