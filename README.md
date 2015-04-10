@@ -127,7 +127,7 @@ Example:
 
     pubSubSubscriber.listen(port);
 
-    pubsub.on("listen", function(){
+    pubSubSubscriber.on("listen", function(){
         pubSubSubscriber.unsubscribe(topic, hub, function(err){
             if(err){
                 console.log("Failed unsubscribing");
