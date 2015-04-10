@@ -21,7 +21,6 @@ var pubSubHubbub = require("pubsubhubbub"),
 
 Where options includes the following properties
 
-  * **port** - port to listen
   * **callbackUrl** Callback URL for the hub
   * **secret** (optional) Secret value for HMAC signatures
   * **maxContentSize** (optional) Maximum allowed size of the POST messages
