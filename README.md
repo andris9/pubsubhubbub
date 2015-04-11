@@ -21,8 +21,8 @@ var pubSubHubbub = require("pubsubhubbub"),
 
 Where options includes the following properties
 
-  * **port** - port to listen
   * **callbackUrl** Callback URL for the hub
+  * **headers** (optional) Custom headers to use for all HTTP requests
   * **secret** (optional) Secret value for HMAC signatures
   * **maxContentSize** (optional) Maximum allowed size of the POST messages
   * **username** (optional) Username for HTTP Authentication
@@ -127,7 +127,7 @@ Example:
 
     pubSubSubscriber.listen(port);
 
-    pubsub.on("listen", function(){
+    pubSubSubscriber.on("listen", function(){
         pubSubSubscriber.unsubscribe(topic, hub, function(err){
             if(err){
                 console.log("Failed unsubscribing");
