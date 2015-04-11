@@ -20,7 +20,7 @@ var request = require('request'),
  * @param {Number} [options.maxContentSize] Maximum allowed size of the POST messages
  * @param {String} [options.username] Username for HTTP Authentication
  * @param {String} [options.password] Password for HTTP Authentication
- * @param {String} [headers] Headers to use for all HTTP requests
+ * @param {String} [headers] Custom headers to use for all HTTP requests
  * @return {Object} A PubSubHubbub server object
  */
 module.exports.createServer = function(options) {
@@ -38,7 +38,7 @@ module.exports.createServer = function(options) {
  * @param {Number} [options.maxContentSize] Maximum allowed size of the POST messages
  * @param {String} [options.username] Username for HTTP Authentication
  * @param {String} [options.password] Password for HTTP Authentication
- * @param {String} [headers] Headers to use for all HTTP requests
+ * @param {String} [headers] Custom headers to use for all HTTP requests
  */
 function PubSubHubbub(options) {
     Stream.call(this);
