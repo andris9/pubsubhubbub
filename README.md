@@ -15,8 +15,8 @@ Install with npm
 Create a **pubsubhubbub** server object
 
 ```javascript
-var pubSubHubbub = require("pubsubhubbub"),
-    pubSubSubscriber = pubSubHubbub.createServer(options);
+var pubSubHubbub = require("pubsubhubbub");
+var pubSubSubscriber = pubSubHubbub.createServer(options);
 ```
 
 Where options includes the following properties
@@ -85,9 +85,9 @@ Where
 
 Example:
 
-    var pubSubSubscriber = pubSubHubbub.createServer(options),
-        topic = "http://testetstetss.blogspot.com/feeds/posts/default",
-        hub = "http://pubsubhubbub.appspot.com/";
+    var pubSubSubscriber = pubSubHubbub.createServer(options);
+    var topic = "http://testetstetss.blogspot.com/feeds/posts/default";
+    var hub = "http://pubsubhubbub.appspot.com/";
 
     pubSubSubscriber.on("subscribe", function(data){
         console.log(data.topic + " subscribed");
