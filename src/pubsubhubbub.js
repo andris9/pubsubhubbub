@@ -343,7 +343,7 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
         signature = (signatureParts.pop() || '').toLowerCase();
 
         try {
-            hmac = crypto.createHmac(algo, crypto.createHmac('sha1', this.secret).update(topic).digest('hex'));
+            hmac = crypto.createHmac(algo, this.secret);
         } catch (E) {
             return this._sendError(req, res, next, 403, 'Forbidden');
         }

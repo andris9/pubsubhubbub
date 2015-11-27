@@ -13,10 +13,8 @@ var pubsub = pubSubHubbub.createServer({
 	sendImmediately: true
 });
 
-var topic = 'http://test.com';
 var response_body = 'This is a response.';
-var encrypted_secret = crypto.createHmac('sha1', pubsub.secret).update(topic).digest('hex');
-var hub_encryption = crypto.createHmac('sha1', encrypted_secret).update(response_body).digest('hex');
+var hub_encryption = crypto.createHmac('sha1', pubsub.secret).update(response_body).digest('hex');
 
 describe('pubsubhubbub notification', function() {
 	beforeEach(function() {
