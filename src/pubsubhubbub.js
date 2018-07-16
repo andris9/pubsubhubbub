@@ -315,18 +315,25 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
         tooLarge = false,
         signatureParts, algo, signature, hmac;
 
-    // v0.4 hubs have a link header that includes both the topic url and hub url
-    (req.headers && req.headers.link || '').
-    replace(/<([^>]+)>\s*(?:;\s*rel=["']([^"']+)["'])?/gi, function(o, url, rel) {
-        switch ((rel || '').toLowerCase()) {
-            case 'self':
+    function setTopicHub(o, url, rel) {
+        rel = rel || "";
+
+        switch(rel.toLowerCase()){
+            case "self":
                 topic = url;
                 break;
-            case 'hub':
+            case "hub":
                 hub = url;
                 break;
         }
-    });
+    };
+
+    // v0.4 hubs have a link header that includes both the topic url and hub url
+    var regex = /<([^>]+)>;\s*rel=(?:["'](?=.*["']))?([A-z]+)/gi
+    var requestLink = req.headers && req.headers.link || "";
+    var requestRels = regex.exec(requestLink);
+
+    setTopicHub.apply(null, requestRels);
 
     if (!topic) {
         return this._sendError(req, res, next, 400, 'Bad Request');
