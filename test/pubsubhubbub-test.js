@@ -89,13 +89,13 @@ describe('pubsubhubbub notification', function() {
 				'link': '<http://test.com>; rel=self, <http://pubsubhubbub.appspot.com/>; rel=hub',
 			},
 			body: response_body
-		}
+		};
 		
-		request.post(options, function (err, res, body) {
+		request.post(options, function (err, res) {
 			expect(res.statusCode).to.equal(204);
 			done();
 		});
-	})
+	});
 
 	it('should emit a feed event - successful request', function(done) {
 		var eventFired = false;

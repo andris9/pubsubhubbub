@@ -326,10 +326,10 @@ PubSubHubbub.prototype._onPostRequest = function(req, res, next) {
                 hub = url;
                 break;
         }
-    };
+    }
 
     // v0.4 hubs have a link header that includes both the topic url and hub url
-    var regex = /<([^>]+)>;\s*rel=(?:["'](?=.*["']))?([A-z]+)/gi
+    var regex = /<([^>]+)>;\s*rel=(?:["'](?=.*["']))?([A-z]+)/gi;
     var requestLink = req.headers && req.headers.link || "";
     var requestRels = regex.exec(requestLink);
 
