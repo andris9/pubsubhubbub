@@ -81,6 +81,22 @@ describe('pubsubhubbub notification', function() {
 		});
 	});
 
+	it('should return 204 (without quotations on the rel) - successful request', function (done) {
+		var options = {
+			url: 'http://localhost:8000',
+			headers: {
+				'X-Hub-Signature': 'sha1='+hub_encryption,
+				'link': '<http://test.com>; rel=self, <http://pubsubhubbub.appspot.com/>; rel=hub',
+			},
+			body: response_body
+		};
+		
+		request.post(options, function (err, res) {
+			expect(res.statusCode).to.equal(204);
+			done();
+		});
+	});
+
 	it('should emit a feed event - successful request', function(done) {
 		var eventFired = false;
 		var options = {
