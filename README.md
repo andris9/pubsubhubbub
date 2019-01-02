@@ -1,8 +1,4 @@
-## NB!
-
-> This project is **unmaintained!** If anyone wants to take over please write to andris.reinman@gmail.com to get ownership of this repo and npm package
-
-# README.md
+# PubSubHubbub subscriber
 
 PubSubHubbub subscriber module. Supports both 0.3 and 0.4 hubs.
 
@@ -19,19 +15,19 @@ Install with npm
 Create a **pubsubhubbub** server object
 
 ```javascript
-var pubSubHubbub = require("pubsubhubbub");
+var pubSubHubbub = require('pubsubhubbub');
 var pubSubSubscriber = pubSubHubbub.createServer(options);
 ```
 
 Where options includes the following properties
 
-  * **callbackUrl** Callback URL for the hub
-  * **headers** (optional) Custom headers to use for all HTTP requests
-  * **secret** (optional) Secret value for HMAC signatures
-  * **maxContentSize** (optional) Maximum allowed size of the POST messages
-  * **username** (optional) Username for HTTP Authentication
-  * **password** (optional) Password for HTTP Authentication
-  * **sendImmediately** (optional) Send Username & Password Immediately. Defaults to false.
+-   **callbackUrl** Callback URL for the hub
+-   **headers** (optional) Custom headers to use for all HTTP requests
+-   **secret** (optional) Secret value for HMAC signatures
+-   **maxContentSize** (optional) Maximum allowed size of the POST messages
+-   **username** (optional) Username for HTTP Authentication
+-   **password** (optional) Password for HTTP Authentication
+-   **sendImmediately** (optional) Send Username & Password Immediately. Defaults to false.
 
 ### HTTP server mode
 
@@ -56,12 +52,12 @@ app.use("/pubsubhubbub", pubSubSubscriber.listener());
 
 ## Events
 
-  * **'listen'** - HTTP server has been set up and is listening for incoming connections
-  * **'error'** (*err*) - An error has occurred
-  * **'subscribe'** (*data*) - Subscription for a feed has been updated
-  * **'unsubscribe'** (*data*) - Subscription for a feed has been cancelled
-  * **'denied'** (*data*) - Subscription has been denied
-  * **'feed'** (*data*) - Incoming notification
+-   **'listen'** - HTTP server has been set up and is listening for incoming connections
+-   **'error'** (_err_) - An error has occurred
+-   **'subscribe'** (_data_) - Subscription for a feed has been updated
+-   **'unsubscribe'** (_data_) - Subscription for a feed has been cancelled
+-   **'denied'** (_data_) - Subscription has been denied
+-   **'feed'** (_data_) - Incoming notification
 
 ## API
 
@@ -73,7 +69,7 @@ Start listening on selected port
 
 Where
 
-  * **port** is the HTTP port to listen
+-   **port** is the HTTP port to listen
 
 ### Subscribe
 
@@ -83,9 +79,9 @@ Subscribe to a feed with
 
 Where
 
-  * **topic** is the URL of the RSS/ATOM feed to subscribe to
-  * **hub** is the hub for the feed
-  * **callback** (optional) is the callback function with an error object if the subscription failed
+-   **topic** is the URL of the RSS/ATOM feed to subscribe to
+-   **hub** is the hub for the feed
+-   **callback** (optional) is the callback function with an error object if the subscription failed
 
 Example:
 
@@ -115,9 +111,9 @@ Unsubscribe from a feed with
 
 Where
 
-  * **topic** is the URL of the RSS/ATOM feed to unsubscribe from
-  * **hub** is the hub for the feed
-  * **callback** (optional) is the callback function with an error object if the unsubscribing failed
+-   **topic** is the URL of the RSS/ATOM feed to unsubscribe from
+-   **hub** is the hub for the feed
+-   **callback** (optional) is the callback function with an error object if the unsubscribing failed
 
 Example:
 
@@ -143,11 +139,11 @@ Example:
 
 Update notifications can be checked with the `'feed'` event. The data object is with the following structure:
 
-  * **topic** - Topic URL
-  * **hub** - Hub URL, might be undefined
-  * **callback** - Callback URL that was used by the Hub
-  * **feed** - Feed XML as a Buffer object
-  * **headers** - Request headers object
+-   **topic** - Topic URL
+-   **hub** - Hub URL, might be undefined
+-   **callback** - Callback URL that was used by the Hub
+-   **feed** - Feed XML as a Buffer object
+-   **headers** - Request headers object
 
 ## License
 
