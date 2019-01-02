@@ -1,6 +1,6 @@
 {
     "name": "pubsubhubbub",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "PubSubHubbub subscriber",
     "main": "src/pubsubhubbub.js",
     "scripts": {
