@@ -24,6 +24,7 @@ Where options includes the following properties
 -   **callbackUrl** Callback URL for the hub
 -   **headers** (optional) Custom headers to use for all HTTP requests
 -   **secret** (optional) Secret value for HMAC signatures
+-   **leaseSeconds** (optional) Number of seconds for which the subscriber would like to have the subscription active
 -   **maxContentSize** (optional) Maximum allowed size of the POST messages
 -   **username** (optional) Username for HTTP Authentication
 -   **password** (optional) Password for HTTP Authentication

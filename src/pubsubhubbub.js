@@ -27,6 +27,8 @@ class PubSubHubbub extends Stream {
 
         this.headers = options.headers || {};
         this.secret = options.secret || false;
+        this.leaseSeconds = Number(options.leaseSeconds) || 0;
+
         this.callbackUrl = options.callbackUrl || '';
         this.maxContentSize = options.maxContentSize || 3 * 1024 * 1024;
 
@@ -136,6 +138,10 @@ class PubSubHubbub extends Stream {
 
         if (this.auth) {
             postParams.auth = this.auth;
+        }
+
+        if (this.leaseSeconds > 0) {
+            form['hub.lease_seconds'] = this.leaseSeconds;
         }
 
         if (this.secret) {
