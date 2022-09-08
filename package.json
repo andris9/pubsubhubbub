@@ -1,6 +1,6 @@
 {
     "name": "pubsubhubbub",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "PubSubHubbub subscriber",
     "main": "src/pubsubhubbub.js",
     "scripts": {
@@ -17,14 +17,14 @@
         "request": "2.88.0"
     },
     "devDependencies": {
-        "chai": "4.2.0",
+        "chai": "4.3.6",
         "eslint-config-nodemailer": "1.2.0",
-        "eslint-config-prettier": "3.3.0",
-        "express": "4.16.4",
-        "grunt": "1.0.3",
-        "grunt-cli": "1.3.2",
-        "grunt-eslint": "21.0.0",
+        "eslint-config-prettier": "8.5.0",
+        "express": "4.18.1",
+        "grunt": "1.5.3",
+        "grunt-cli": "1.4.3",
+        "grunt-eslint": "24.0.0",
         "grunt-mocha-test": "0.13.3",
-        "mocha": "5.2.0"
+        "mocha": "10.0.0"
     }
 }
